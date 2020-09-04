@@ -1,0 +1,9 @@
+{
+  "welcome":
+  [
+   "Chatbot: ", "bold", "Witaj! Jestem wirtualnym doradcą. Pomogę Ci w wyborze produktu kredytowego i zawnioskowaniu o niego.\nNa co chcesz przeznaczyć dodatkowe środki? \n"
+  ],
+  "empty": "Nie potrafię odpowiedzieć na pustą wiadomość.",
+  "help": "Rozumiem, zatem w czym mogę Ci dzisiaj pomóc?",
+  "dontUnderstand": "Nie rozumiem. Zadaj pytanie inaczej."
+}
