@@ -66,7 +66,7 @@ def send_data():
                 txt_chatbox.insert(tk.END, *messages["chatbot"], credit_qst[question])
                 txt_chatbox.see(tk.END)
                 question += 1
-            except IndexError as e:
+            except IndexError:
                 txt_chatbox.insert(tk.END, *messages["thanks"])
                 txt_chatbox.see(tk.END)
                 btn_send['command'] = send_wit
