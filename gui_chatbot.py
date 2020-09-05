@@ -25,6 +25,7 @@ def send_wit():
     elif msg != '':
         res = integration_wit.wit_response(msg)
         if res == 'agreement':
+            txt_chatbox.insert(tk.END, *messages["check_status"])
             handle_response()
         elif res == "resistance":
             txt_chatbox.insert(tk.END, *messages["help"])
@@ -38,11 +39,10 @@ def send_wit():
 
 
 def handle_response():
-    txt_chatbox.insert(tk.END, *messages["chatbot"], credit_qst[0])
     btn_send['command'] = send_data
 
 
-question = 1
+question = 0
 
 
 def send_data():
@@ -54,13 +54,22 @@ def send_data():
     txt_chatbox.insert(tk.END, *messages["you"], msg + '\n')
     txt_chatbox.see(tk.END)
 
-    if msg == '':
-        txt_chatbox.insert(tk.END, *messages["empty_msg"])
-        txt_chatbox.see(tk.END)
-    elif msg != '':
-        txt_chatbox.insert(tk.END, *messages["chatbot"], credit_qst[question])
-        txt_chatbox.see(tk.END)
-        question += 1
+    if question == 0 and msg == "tak":
+        txt_chatbox.insert(tk.END, *messages["regular_client"])
+        btn_send['command'] = send_wit
+    elif question == 0 and msg == "nie":
+        if msg == '':
+            txt_chatbox.insert(tk.END, *messages["empty_msg"])
+            txt_chatbox.see(tk.END)
+        elif msg != '':
+            try:
+                txt_chatbox.insert(tk.END, *messages["chatbot"], credit_qst[question])
+                txt_chatbox.see(tk.END)
+                question += 1
+            except IndexError as e:
+                txt_chatbox.insert(tk.END, *messages["thanks"])
+                txt_chatbox.see(tk.END)
+                btn_send['command'] = send_wit
 
 
 #####################################################
