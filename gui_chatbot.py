@@ -27,7 +27,6 @@ def send_wit():
         elif res == "resistance":
             txt_chatbox.insert(tk.END, *messages["help"])
         else:
-            print(res)
             txt_chatbox.insert(tk.END, *messages[res])
 
     txt_chatbox.config(state=tk.DISABLED)
@@ -35,7 +34,7 @@ def send_wit():
 
 
 def handle_response():
-    txt_chatbox.insert(tk.END, *messages["chatbot"] + credit_qst[0])
+    txt_chatbox.insert(tk.END, *messages["chatbot"], credit_qst[0])
     btn_send['command'] = send_data
 
 
@@ -48,10 +47,13 @@ def send_data():
     txt_entrybox.delete("0.0", tk.END)  # Deletes users text
 
     txt_chatbox.config(state=tk.NORMAL, wrap=tk.WORD)
-    txt_chatbox.insert(tk.END, *messages["you"] + msg)
+    txt_chatbox.insert(tk.END, *messages["you"], msg + '\n')
 
-    txt_chatbox.insert(tk.END, credit_questions[question])
-    question += 1
+    if msg == '':
+        txt_chatbox.insert(tk.END, *messages["empty_msg"])
+    elif msg != '':
+        txt_chatbox.insert(tk.END, credit_qst[question])
+        question += 1
 
 
 #####################################################

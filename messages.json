@@ -62,5 +62,17 @@
             "Chatbot: ",
             "bold",
             "Produkt dla Ciebie to kredyt odnawialny. W celu złożenia wniosku odwiedź placówkę mBank. \n"
+          ],
+  "proposal":
+          [
+            "Chatbot: ",
+            "bold",
+            "Nie jestem pewien czy dobrze zrozumiałem, ale mogę zaproponować kredyt gotówkowy. Czy chcesz złożyć wniosek? \n"
+          ],
+  "regular_client":
+          [
+            "Chatbot: ",
+            "bold",
+            "Zaloguj się w bankowości elektronicznej i zobacz co dla Ciebie przygotowaliśmy. \n"
           ]
 }

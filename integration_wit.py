@@ -11,5 +11,5 @@ def wit_response(message):
     try:
         return list(resp['entities'])[0]
     except Exception:
-        return 'not_understand'
+        return 'proposal'
         pass
