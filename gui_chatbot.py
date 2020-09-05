@@ -1,11 +1,13 @@
 import tkinter as tk
-import integracjaWitAI
-import tupla
+import integration_wit
 import json
 
 
 with open("messages.json", "r", encoding="utf-8") as json_file:
-    data = json.load(json_file)
+    messages = json.load(json_file)
+
+with open("loan_application", "r", encoding="utf-8") as json_file2:
+    credit_qst = json.load(json_file2)
 
 
 def send_wit():
@@ -14,50 +16,42 @@ def send_wit():
 
     txt_chatbox.config(state=tk.NORMAL, wrap=tk.WORD)
     txt_chatbox.tag_configure("bold")
-    txt_chatbox.insert(tk.END, "Ty: ", "bold", msg + '\n\n')
+    txt_chatbox.insert(tk.END, *messages["you"], msg + '\n')
 
     if msg == '':
-        txt_chatbox.insert(tk.END, "Chatbot: ", "bold", data["empty"] + '\n\n')
+        txt_chatbox.insert(tk.END, *messages["empty_msg"])
     elif msg != '':
-        res = integracjaWitAI.wit_response(msg)
-        if res == 'zgoda':
+        res = integration_wit.wit_response(msg)
+        if res == 'agreement':
             handle_response()
-        elif res == 'sprzeciw':
-            txt_chatbox.insert(tk.END, "Chatbot: ", "bold", data["help"] + '\n\n')
+        elif res == "resistance":
+            txt_chatbox.insert(tk.END, *messages["help"])
         else:
-            txt_chatbox.insert(tk.END, "Chatbot: ", "bold", switch_response(res) + '\n\n')
+            print(res)
+            txt_chatbox.insert(tk.END, *messages[res])
 
     txt_chatbox.config(state=tk.DISABLED)
     txt_chatbox.yview(tk.END)
 
 
-def switch_response(res):
-    types = {
-        'kredyt_hipoteczny': "Produkt dla ciebie to kredyt hipoteczny. Chcesz wnioskować?",
-        'kredyt_gotowkowy': "Produkt dla ciebie to kredyt gotowkowy. Chcesz wnioskować?",
-    }
-    return types.get(res, data["dontUnderstand"])
-
-
 def handle_response():
-    txt_chatbox.insert(tk.END, "Chatbot: ", "bold", tupla.daneKlienta[0] + '\n\n')
+    txt_chatbox.insert(tk.END, *messages["chatbot"] + credit_qst[0])
     btn_send['command'] = send_data
 
 
-pytanie = 1
+question = 1
 
 
 def send_data():
-    global pytanie
+    global question
     msg = txt_entrybox.get("1.0", 'end-1c').strip()  # Gets text from the textbox
     txt_entrybox.delete("0.0", tk.END)  # Deletes users text
 
     txt_chatbox.config(state=tk.NORMAL, wrap=tk.WORD)
-    txt_chatbox.tag_configure("bold")
-    txt_chatbox.insert(tk.END, "Ty: ", "bold", msg + '\n\n')
+    txt_chatbox.insert(tk.END, *messages["you"] + msg)
 
-    txt_chatbox.insert(tk.END, "Chatbot: ", "bold", tupla.daneKlienta[pytanie] + '\n\n')
-    pytanie += 1
+    txt_chatbox.insert(tk.END, credit_questions[question])
+    question += 1
 
 
 #####################################################
@@ -73,7 +67,7 @@ root.resizable(width=tk.FALSE, height=tk.FALSE)
 # Create chat window and first message
 txt_chatbox = tk.Text(root, bd=0, bg="white", font=("Verdana", 12))
 txt_chatbox.tag_configure("bold", font=("Verdana", 12, "bold"))
-txt_chatbox.insert(tk.END, *data['welcome'])
+txt_chatbox.insert(tk.END, *messages["welcome"])
 txt_chatbox.config(state=tk.DISABLED, wrap=tk.WORD)
 
 # Bind scrollbar to chat window
@@ -91,9 +85,6 @@ btn_send = tk.Button(root, font=("Verdana", 12, 'bold'), text="Wyślij", width=1
 txt_entrybox = tk.Text(root, bd=0, bg="white", font=("Verdana", 12))
 txt_entrybox.config(wrap=tk.WORD)
 txt_entrybox.pack()
-
-# Enter button triggers sendWit ----- NOT WORK
-root.bind('<Return>', lambda x: send_wit)
 
 # Place and size all components on the screen
 scrollbar.place(x=380, y=6, height=385)

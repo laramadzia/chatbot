@@ -10,6 +10,6 @@ def wit_response(message):
 
     try:
         return list(resp['entities'])[0]
-    except:
-        return 'Nie rozumiem. Zadaj pytanie inaczej.'
+    except Exception:
+        return 'not_understand'
         pass
