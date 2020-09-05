@@ -17,17 +17,21 @@ def send_wit():
     txt_chatbox.config(state=tk.NORMAL, wrap=tk.WORD)
     txt_chatbox.tag_configure("bold")
     txt_chatbox.insert(tk.END, *messages["you"], msg + '\n')
+    txt_chatbox.see(tk.END)
 
     if msg == '':
         txt_chatbox.insert(tk.END, *messages["empty_msg"])
+        txt_chatbox.see(tk.END)
     elif msg != '':
         res = integration_wit.wit_response(msg)
         if res == 'agreement':
             handle_response()
         elif res == "resistance":
             txt_chatbox.insert(tk.END, *messages["help"])
+            txt_chatbox.see(tk.END)
         else:
             txt_chatbox.insert(tk.END, *messages[res])
+            txt_chatbox.see(tk.END)
 
     txt_chatbox.config(state=tk.DISABLED)
     txt_chatbox.yview(tk.END)
@@ -48,11 +52,14 @@ def send_data():
 
     txt_chatbox.config(state=tk.NORMAL, wrap=tk.WORD)
     txt_chatbox.insert(tk.END, *messages["you"], msg + '\n')
+    txt_chatbox.see(tk.END)
 
     if msg == '':
         txt_chatbox.insert(tk.END, *messages["empty_msg"])
+        txt_chatbox.see(tk.END)
     elif msg != '':
-        txt_chatbox.insert(tk.END, credit_qst[question])
+        txt_chatbox.insert(tk.END, *messages["chatbot"], credit_qst[question])
+        txt_chatbox.see(tk.END)
         question += 1
 
 
