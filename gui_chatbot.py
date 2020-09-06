@@ -2,6 +2,7 @@ import tkinter as tk
 import integration_wit
 import json
 
+question = 0
 
 with open("messages.json", "r", encoding="utf-8") as json_file:
     messages = json.load(json_file)
@@ -13,7 +14,6 @@ with open("loan_application", "r", encoding="utf-8") as json_file2:
 def user_msg():
     msg = txt_entrybox.get("1.0", 'end-1c').strip()  # Gets text from the textbox
     txt_entrybox.delete("0.0", tk.END)  # Deletes users text
-
     txt_chatbox.config(state=tk.NORMAL, wrap=tk.WORD)
     txt_chatbox.tag_configure("bold")
     txt_chatbox.insert(tk.END, *messages["you"], msg + '\n')
@@ -30,9 +30,10 @@ def send_wit():
     msg = user_msg()
     if msg == '':
         chatbot_msg("empty_msg")
-    elif msg != '':
+    else:
         res = integration_wit.wit_response(msg)
         if res == 'agreement':
+            chatbot_msg("chatbot", credit_qst[question])
             handle_response()
         elif res == "resistance":
             chatbot_msg("help")
@@ -40,12 +41,8 @@ def send_wit():
             chatbot_msg(res)
 
 
-question = 0
-
-
 def handle_response():
     btn_send['command'] = send_data
-    chatbot_msg("chatbot", credit_qst[question])
 
 
 def connect_wit():
