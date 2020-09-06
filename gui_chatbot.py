@@ -53,14 +53,17 @@ def send_data():
     global question
     msg = user_msg()
 
-    if question == 0 and msg == "tak":
-        chatbot_msg("regular_client")
-        connect_wit()
-    elif question == credit_qst.index(credit_qst[-1]):
-        check_form(msg)
+    if msg == '':
+        chatbot_msg("empty_msg")
     else:
-        question += 1
-        chatbot_msg("chatbot", credit_qst[question])
+        if question == 0 and msg == "tak":
+            chatbot_msg("regular_client")
+            connect_wit()
+        elif question == credit_qst.index(credit_qst[-1]):
+            check_form(msg)
+        else:
+            question += 1
+            chatbot_msg("chatbot", credit_qst[question])
 
 
 def check_form(msg):
