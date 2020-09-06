@@ -69,12 +69,6 @@
             "bold",
             "Nie jestem pewien czy dobrze zrozumiałem, ale mogę zaproponować kredyt gotówkowy. Czy chcesz złożyć wniosek? \n"
           ],
-  "check_status":
-          [
-            "Chatbot: ",
-            "bold",
-            "Czy jesteś klientem mBanku? \n"
-          ],
   "regular_client":
           [
             "Chatbot: ",

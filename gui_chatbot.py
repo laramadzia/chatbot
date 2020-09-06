@@ -10,7 +10,7 @@ with open("loan_application", "r", encoding="utf-8") as json_file2:
     credit_qst = json.load(json_file2)
 
 
-def send_wit():
+def user_msg():
     msg = txt_entrybox.get("1.0", 'end-1c').strip()  # Gets text from the textbox
     txt_entrybox.delete("0.0", tk.END)  # Deletes users text
 
@@ -18,58 +18,60 @@ def send_wit():
     txt_chatbox.tag_configure("bold")
     txt_chatbox.insert(tk.END, *messages["you"], msg + '\n')
     txt_chatbox.see(tk.END)
+    return msg
 
+
+def chatbot_msg(text, additional=''):
+    txt_chatbox.insert(tk.END, *messages[text], additional)
+    txt_chatbox.see(tk.END)
+
+
+def send_wit():
+    msg = user_msg()
     if msg == '':
-        txt_chatbox.insert(tk.END, *messages["empty_msg"])
-        txt_chatbox.see(tk.END)
+        chatbot_msg("empty_msg")
     elif msg != '':
         res = integration_wit.wit_response(msg)
         if res == 'agreement':
-            txt_chatbox.insert(tk.END, *messages["check_status"])
             handle_response()
         elif res == "resistance":
-            txt_chatbox.insert(tk.END, *messages["help"])
-            txt_chatbox.see(tk.END)
+            chatbot_msg("help")
         else:
-            txt_chatbox.insert(tk.END, *messages[res])
-            txt_chatbox.see(tk.END)
-
-    txt_chatbox.config(state=tk.DISABLED)
-    txt_chatbox.yview(tk.END)
-
-
-def handle_response():
-    btn_send['command'] = send_data
+            chatbot_msg(res)
 
 
 question = 0
 
 
+def handle_response():
+    btn_send['command'] = send_data
+    chatbot_msg("chatbot", credit_qst[question])
+
+
+def connect_wit():
+    btn_send['command'] = send_wit
+
+
 def send_data():
     global question
-    msg = txt_entrybox.get("1.0", 'end-1c').strip()  # Gets text from the textbox
-    txt_entrybox.delete("0.0", tk.END)  # Deletes users text
-
-    txt_chatbox.config(state=tk.NORMAL, wrap=tk.WORD)
-    txt_chatbox.insert(tk.END, *messages["you"], msg + '\n')
-    txt_chatbox.see(tk.END)
+    msg = user_msg()
 
     if question == 0 and msg == "tak":
-        txt_chatbox.insert(tk.END, *messages["regular_client"])
-        btn_send['command'] = send_wit
-    elif question == 0 and msg == "nie":
-        if msg == '':
-            txt_chatbox.insert(tk.END, *messages["empty_msg"])
-            txt_chatbox.see(tk.END)
-        elif msg != '':
-            try:
-                txt_chatbox.insert(tk.END, *messages["chatbot"], credit_qst[question])
-                txt_chatbox.see(tk.END)
-                question += 1
-            except IndexError:
-                txt_chatbox.insert(tk.END, *messages["thanks"])
-                txt_chatbox.see(tk.END)
-                btn_send['command'] = send_wit
+        chatbot_msg("regular_client")
+        connect_wit()
+    elif question == credit_qst.index(credit_qst[-1]):
+        check_form(msg)
+    else:
+        question += 1
+        chatbot_msg("chatbot", credit_qst[question])
+
+
+def check_form(msg):
+    if msg == "tak":
+        chatbot_msg("thanks")
+    else:
+        chatbot_msg("help")
+    connect_wit()
 
 
 #####################################################
