@@ -26,19 +26,19 @@ class ChatbotApp:
                                   command=self.send_wit)
 
         # Create the box to enter message
-        self.txt_entrybox = tk.Text(self.master, bd=0, bg="white", font=("Verdana", 12))
-        self.txt_entrybox.config(wrap=tk.WORD)
-        self.txt_entrybox.pack()
+        self.ent_entrybox = tk.Text(self.master, bd=0, bg="white", font=("Verdana", 12))
+        self.ent_entrybox.config(wrap=tk.WORD)
+        self.ent_entrybox.pack()
 
         # Place and size all components on the screen
         self.scrollbar.place(x=380, y=6, height=385)
         self.txt_chatbox.place(x=6, y=6, height=386, width=375)
-        self.txt_entrybox.place(x=128, y=401, height=90, width=263)
+        self.ent_entrybox.place(x=128, y=401, height=90, width=263)
         self.btn_send.place(x=6, y=401, height=90)
 
     def user_msg(self):
-        msg = self.txt_entrybox.get("1.0", 'end-1c').strip()  # Gets text from the textbox
-        self.txt_entrybox.delete("0.0", tk.END)  # Deletes users text
+        msg = self.ent_entrybox.get("1.0", 'end-1c').strip()  # Gets text from the textbox
+        self.ent_entrybox.delete("0.0", tk.END)  # Deletes users text
         self.txt_chatbox.config(state=tk.NORMAL, wrap=tk.WORD)
         self.txt_chatbox.tag_configure("bold")
         self.txt_chatbox.insert(tk.END, *self.messages["you"], msg + '\n')
