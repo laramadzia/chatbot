@@ -6,9 +6,9 @@ from chatbot_app import ChatbotApp
 def main():
     root = tk.Tk()
 
+    # Open json files
     with open("messages.json", "r", encoding="utf-8") as json_file:
         messages = json.load(json_file)
-
     with open("loan_application.json", "r", encoding="utf-8") as json_file2:
         credit_qst = json.load(json_file2)["questions"]
 
