@@ -80,5 +80,41 @@
             "Chatbot: ",
             "bold",
             "Dziękuję! Wniosek został złożony. Miłego dnia :) \n"
+          ],
+  "greeting":
+          [
+            "Chatbot: ",
+            "bold",
+            "Cześć!  \n"
+          ],
+  "old":
+          [
+            "Chatbot: ",
+            "bold",
+            "Jestem młodym robotem, bo mam zaledwie 2 miesiące.  \n"
+          ],
+  "bye":
+          [
+            "Chatbot: ",
+            "bold",
+            "Pa!  \n"
+          ],
+  "owner":
+          [
+            "Chatbot: ",
+            "bold",
+            "Stworzyła mnie Magda, na potrzeby swojej pracy magisterskiej.  \n"
+          ],
+   "role":
+          [
+            "Chatbot: ",
+            "bold",
+            "Jestem wirtualnym doradcą. Pomogę Ci w wyborze produktu kredytowego i zawnioskowaniu o niego. \n"
+          ],
+  "feeling":
+          [
+            "Chatbot: ",
+            "bold",
+            "Czuję się rewelacyjne. Cieszę się, że mamy okazję porozmawiać. \n"
           ]
 }
