@@ -1,5 +1,6 @@
 import tkinter as tk
 import integration_wit
+import openpyxl
 
 
 class ChatbotApp:
@@ -63,6 +64,7 @@ class ChatbotApp:
                 self.chatbot_msg("help")
             else:
                 self.chatbot_msg(res)
+                self.update_excel("types", res)
 
     def handle_response(self):
         self.btn_send['command'] = self.send_data
@@ -88,6 +90,20 @@ class ChatbotApp:
     def check_form(self, msg):
         if msg.lower() == "tak":
             self.chatbot_msg("thanks")
+            self.update_excel("statuses", "success")
+
         else:
             self.chatbot_msg("help")
+            self.update_excel("statuses", "failure")
+
+    def update_excel(self, sheet_name, text):
+        file = 'data.xlsx'
+        wb = openpyxl.load_workbook(file)
+        ws = wb[sheet_name]
+        for row in ws.iter_rows(1):
+            for cell in row:
+                if cell.value == text:
+                    ws.cell(row=cell.row, column=cell.column+2).value += 1
+                    wb.save(file)
         self.connect_wit()
+
